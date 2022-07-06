@@ -1,5 +1,6 @@
 import React from 'react'
 
+// original code
 const BlogsPage = ({ message }) => {
     return (
         <div className="blogs-page">
@@ -8,5 +9,23 @@ const BlogsPage = ({ message }) => {
         </div>
     )
 }
+
+// code to copy and add in:
+// const BlogsPage = (props) => {
+//     return (
+//         <div className="blogs-page">
+//             <h1>Blogs Page</h1>
+//             <p>Server Message: {props.message.map((blog) => {
+//                 return (
+//                     <>
+//                         {blog.title}
+//                     </>
+//                 )
+//             })}</p>
+//         </div>
+//     )
+// }
+
+
 
 export default BlogsPage;
