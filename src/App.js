@@ -3,19 +3,34 @@ import { Route, Routes } from 'react-router-dom';
 import BlogsPage from './Pages/Blogs';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import PostBlogPage from './Pages/PostBlogPage';
+import * as React from "react";
 
 const urlEndpoint = "http://localhost:4000";
 
 
 function App() {
   const [serverJSON, setServerJSON] = useState({ message: [] });
-  const [sortField, setSortField] = useState('title');
-  const [sortOrder, setSortOrder] = useState("ASC");
+  const [sortField, setSortField] = useState('id');
+  const [sortOrder, setSortOrder] = useState("DESC");
   const [filterField, setFilterField] = useState('title');
   const [filterValue, setFilterValue] = useState('');
-  const [limit, setLimit] = useState(Number(10));
-  const [page, setPage] = useState(Number(1));
+  const [limit, setLimit] = useState(10);
+  const [page, setPage] = useState(1);
 
+  const blogSubmit = async (blog) => {
+    const url = `${urlEndpoint}/blogs/blog-submit`
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(blog)
+    });
+
+    const responseJSON = await response.json();
+    return responseJSON;
+  }
 
   // code to copy and add in
   useEffect(() => {
@@ -34,7 +49,7 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/blogs"
+        <Route index
           element={<BlogsPage
             blogs={serverJSON.message}
             sortField={sortField}
@@ -43,42 +58,18 @@ function App() {
             setSortOrder={setSortOrder}
             filterField={filterField}
             setFilterField={setFilterField}
-            filterValua={filterValue}
+            filterValue={filterValue}
             setFilterValue={setFilterValue}
             limit={limit}
             setLimit={setLimit}
             page={page}
             setPage={setPage}
-          />}></Route>
-        )
+          />}>
+        </Route>
+        <Route path="/post-blog"
+          element={<PostBlogPage message={serverJSON.message} blogSubmit={blogSubmit} />}></Route>
       </Routes>
-
     </div>
   );
 }
-
-// original code to start assignment
-// useEffect(() => {
-//   const fetchData = async () => {
-//     const apiResponse = await fetch(`${urlEndpoint}/blogs/hello-blogs`);
-//     const apiJSON = await apiResponse.json();
-//     setServerJSON(apiJSON);
-//     return;
-//   };
-//   fetchData();
-// }, []);
-
-
-// useEffect(() => {
-//   const fetchData = async () => {
-//     const url = `${urlEndpoint}/blogs/all-blogs`
-//     const apiResponse = await fetch(url);
-//     const apiJSON = await apiResponse.json();
-//     setServerJSON(apiJSON);
-//     return;
-//   };
-//   fetchData();
-// }, []);
-
-
 export default App;

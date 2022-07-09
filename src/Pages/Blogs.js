@@ -101,14 +101,12 @@ const BlogsPage = ({
             <input
                 type="number"
                 min="1"
-
                 value={page}
                 onChange={(event) => {
                     const newPage = event.target.value;
                     setPage(newPage);
                 }}>
             </input>
-
             <hr></hr>
             <div>
                 {blogs.map((blog) => {
