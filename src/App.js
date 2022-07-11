@@ -15,6 +15,9 @@ function App() {
   const [sortOrder, setSortOrder] = useState("DESC");
   const [filterField, setFilterField] = useState('title');
   const [filterValue, setFilterValue] = useState('');
+  const [isFetching, setIsFetching] = useState(false);
+
+
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(1);
 
@@ -43,7 +46,7 @@ function App() {
       return;
     };
     fetchData();
-  }, [sortField, sortOrder, filterField, filterValue, limit, page]);
+  }, [sortField, sortOrder, filterField, filterValue, limit, page, isFetching]);
 
 
   return (
@@ -67,7 +70,9 @@ function App() {
           />}>
         </Route>
         <Route path="/post-blog"
-          element={<PostBlogPage message={serverJSON.message} blogSubmit={blogSubmit} />}></Route>
+          element={<PostBlogPage
+            blogSubmit={blogSubmit}
+            setIsFetching={setIsFetching} />}></Route>
       </Routes>
     </div>
   );
