@@ -5,6 +5,8 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import PostBlogPage from './Pages/PostBlogPage';
 import * as React from "react";
+import BlogManager from './Pages/BlogManager';
+
 
 const urlEndpoint = "http://localhost:4000";
 
@@ -16,6 +18,9 @@ function App() {
   const [filterField, setFilterField] = useState('title');
   const [filterValue, setFilterValue] = useState('');
   const [isFetching, setIsFetching] = useState(false);
+  const [adminBlogList, setAdminBlogList] = useState([]);
+  const [adminBlogsLoading, setAdminBlogsLoading] = useState(false);
+
 
 
   const [limit, setLimit] = useState(10);
@@ -35,6 +40,17 @@ function App() {
     return responseJSON;
   }
 
+  const deleteBlog = async (blogId) => {
+    setAdminBlogsLoading(true)
+    const url = `${urlEndpoint}/admin/delete-blog/${blogId}`
+    const response = await fetch(url, {
+      method: 'DELETE'
+    });
+    const responseJSON = await response.json();
+    setAdminBlogsLoading(false)
+  }
+
+
   // code to copy and add in
   useEffect(() => {
     const fetchData = async () => {
@@ -47,6 +63,22 @@ function App() {
     };
     fetchData();
   }, [sortField, sortOrder, filterField, filterValue, limit, page, isFetching]);
+
+
+
+  useEffect(() => {
+    const fetchAdminBlogList = async () => {
+      const apiResponse = await fetch(`${urlEndpoint}/admin/blog-list`);
+      const json = await apiResponse.json();
+      setAdminBlogList(json);
+      return json;
+    }
+    fetchAdminBlogList()
+  }, [adminBlogsLoading]);
+
+
+
+
 
 
   return (
@@ -73,6 +105,12 @@ function App() {
           element={<PostBlogPage
             blogSubmit={blogSubmit}
             setIsFetching={setIsFetching} />}></Route>
+        <Route path="/blog-manager"
+          element={<BlogManager
+            adminBlogList={adminBlogList}
+            deleteBlog={deleteBlog}
+          />} />
+
       </Routes>
     </div>
   );
