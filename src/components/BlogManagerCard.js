@@ -1,15 +1,17 @@
 import React from 'react'
 
-const BlogManagerCard = (blog, deleteBlog) => {
+const BlogManagerCard = ({ blog, deleteBlog }) => {
     return (
         <div>
             <div className="blogPost">
-                <p></p>
-                <span>
-                    <strong> Title: </strong>
-                    <br />
-                </span>
-                {blog.title}
+                <p>
+                    <span>
+                        <strong> Title: </strong>
+                        <br />
+                    </span>
+                    {blog.title}
+
+                </p>
                 <p>
                     <span>
                         <strong> Author: </strong>
@@ -47,7 +49,11 @@ const BlogManagerCard = (blog, deleteBlog) => {
                     </span>
                     {blog.id}
                 </p>
-                <hr></hr>
+
+                <button onClick={async () => {
+                    await deleteBlog(blog.id)
+                }}>Delete</button>
+
             </div>
 
         </div>

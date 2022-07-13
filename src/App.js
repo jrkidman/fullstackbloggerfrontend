@@ -18,7 +18,7 @@ function App() {
   const [filterField, setFilterField] = useState('title');
   const [filterValue, setFilterValue] = useState('');
   const [isFetching, setIsFetching] = useState(false);
-  const [adminBlogList, setAdminBlogList] = useState([]);
+  const [adminBlogList, setAdminBlogList] = useState({ message: [] });
   const [adminBlogsLoading, setAdminBlogsLoading] = useState(false);
 
 
@@ -107,7 +107,7 @@ function App() {
             setIsFetching={setIsFetching} />}></Route>
         <Route path="/blog-manager"
           element={<BlogManager
-            adminBlogList={adminBlogList}
+            adminBlogList={adminBlogList.message}
             deleteBlog={deleteBlog}
           />} />
 

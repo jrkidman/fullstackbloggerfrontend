@@ -3,15 +3,18 @@ import BlogManagerCard from '../components/BlogManagerCard'
 
 
 const BlogManager = ({ adminBlogList, deleteBlog }) => {
-    adminBlogList.map((blog) => {
-        return (
-            <BlogManagerCard blog={blog} deleteBlog={deleteBlog} />
-        )
-
-    })
     return (
         <div>
-
+            <h1>Blog Manager</h1>
+            {adminBlogList.map((blog) => {
+                return (
+                    <BlogManagerCard
+                        blog={blog}
+                        deleteBlog={deleteBlog}
+                        key={blog.id}
+                    />
+                )
+            })}
         </div>
     )
 }
