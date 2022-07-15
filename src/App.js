@@ -7,7 +7,6 @@ import PostBlogPage from './Pages/PostBlogPage';
 import * as React from "react";
 import BlogManager from './Pages/BlogManager';
 
-
 const urlEndpoint = "http://localhost:4000";
 
 
@@ -49,6 +48,16 @@ function App() {
     const responseJSON = await response.json();
     setAdminBlogsLoading(false)
   }
+
+  const fetchSingleBlog = async (blogId) => {
+    const url = `${urlEndpoint}/blogs/single-blog/${blogId}`
+    const response = await fetch(url);
+    const responseJSON = await response.json();
+    return responseJSON.message;
+  }
+
+
+
 
 
   // code to copy and add in
@@ -109,6 +118,9 @@ function App() {
           element={<BlogManager
             adminBlogList={adminBlogList.message}
             deleteBlog={deleteBlog}
+            fetchSingleBlog={fetchSingleBlog}
+            urlEndpoint={urlEndpoint}
+            setAdminBlogsLoading={setAdminBlogsLoading}
           />} />
 
       </Routes>
